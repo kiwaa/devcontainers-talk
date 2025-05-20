@@ -1,0 +1,425 @@
+---
+id: fj62adhk07j49l3u502j6xr
+title: Build It as You Ship It
+desc: ''
+updated: 1747345133961
+created: 1747162331479
+---
+#article.wip #cs.devcontainer
+
+## Docker Is Great, But Your Dev Loop Can Be Better
+
+As containerizing production workloads becomes commonplace, more developers are using containers for scenarios beyond deployment, including continuous integration, test automation, and even full-featured coding environments.
+
+In today’s world of fast-paced development, setting up a consistent and efficient development environment for all team members is crucial for overall productivity. 
+
+n specific terms, dev containers are Docker containers (running locally or remotely) that encapsulate everything necessary for the software development of a given project, including integrated development environments (IDEs), specific software, tools, libraries, and preconfigured services. 
+
+
+Picture this: You're a newbie developer, excited to dive into your first big project. You clone the repository, open your terminal, and confidently type in the command to start the project. But instead of seeing the application running smoothly, you're greeted with a wall of error messages.
+
+You pull out your wife's iPad, connect to the internet, and open VS Code in the browser. Thanks to Dev Containers, you have an exact replica of your development environment, complete with all necessary tools and settings. Within minutes, you've made the fix and pushed the changes, all from a device you never thought you could code on.
+
+
+##  What Are Dev Containers?
+
+
+https://containers.dev/overview
+
+Containers.dev - The open specification for Dev Containers.
+
+> A development container (or dev container for short) allows you to use a container as a full-featured development environment. It can be used to run an application, to separate tools, libraries, or runtimes needed for working with a codebase, and to aid in continuous integration and testing. Dev containers can be run locally or remotely, in a private or public cloud, in a variety of supporting tools and editors.
+
+devcontainer.json, was born out of necessity. It is a structured JSON with Comments (jsonc) metadata format that tools can use to store any needed configuration required to develop inside of local or cloud-based containerized coding.
+
+Development vs production
+https://containers.dev/img/dev-container-stages.png
+
+
+Docker vs Dev Containers? Docker is a great way to run an application, but it doesn’t solve developing that application consistently across team members.
+
+The basic concept is to “dockerize” your development environment and integrate it with your IDE. The container can be local or remote.
+
+will focus on the VS Code Dev Containers concept, although your favorite IDE might also have a similar solution today. It is an open specification that others also adopted.
+
+VS Code Dev Containers extension
+- The Visual Studio Code Dev Containers extension lets you use a Docker container as a full-featured development environment. It allows you to open any folder inside (or mounted into) a container and take advantage of Visual Studio Code’s full feature set. There is more information in the Dev Containers documentation.
+- A codespace is a development environment that’s hosted in the cloud. Codespaces run on a variety of VM-based compute options hosted by GitHub.com, which you can configure from 2 core machines up to 32 core machines. You can connect to your codespaces from the browser or locally using Visual Studio Code.
+
+https://code.visualstudio.com/assets/docs/devcontainers/containers/architecture-containers.png
+
+https://code.visualstudio.com/assets/docs/remote/remote-overview/architecture.png (cloned volumeß)
+
+**extensions**
+VS Code extensions can significantly boost development efficiency. For instance, many JavaScript developers use ESLint and Prettier extensions to auto-format code and fix conventions
+Extensions are installed and run inside the container, where they have full access to the tools, platform, and file system. This means that you can seamlessly switch your entire development environment just by connecting to a different container.
+
+This lets VS Code provide a local-quality development experience including full IntelliSense (completions), code navigation, and debugging regardless of where your tools (or code) are located.
+
+VS Code runs extensions in one of two places: locally on the UI / client side, or in the container. While extensions that affect the VS Code UI, like themes and snippets, are installed locally, most extensions will reside inside a particular container. 
+This allows you to install only the extensions you need for a given task in a container and seamlessly switch your entire tool-chain just by connecting to a new container.
+
+**personalization**
+"Always installed": extensions, features
+
+personalizing with dotfile repositories
+
+Dotfiles are files whose filename begins with a dot (.) and typically contain configuration information for various applications. Since development containers can cover a wide range of application types, it can be useful to store these files somewhere so that you can easily copy them into a container once it is up and running.
+
+A common way to do this is to store these dotfiles in a GitHub repository and then use a utility to clone and apply them. The Dev Containers extension has built-in support for using these with your own containers.
+
+Alternative: Repository configuration folders (user space)ß
+
+
+Dev containers can be utilized in any development environment whether is local or in the cloud, you can promote consistency across teams and workflows.
+
+Dev containers are preconfigured, containerized environments designed to provide a consistent development experience no matter where they're used.
+
+Key components
+- Docker: Provides the underlying container technology to create isolated environments.
+- VS Code: Acts as the integrated development environment (IDE) that interacts with dev containers.
+- GitHub Codespaces: Extends dev containers to the cloud, enabling development from any device with a browser.
+
+Developers use a variety of tools for software development work: SDKs, package managers, servers, git, and an IDE to tie it all together in one pane of glass.
+
+essentially a "remote development" https://code.visualstudio.com/docs/remote/remote-overview
+
+'docker run -it -v $(pwd):/app -p 3000:3000 my-dev-env'  was working / used for many cases (Visual Studio?)
+
+You can use a bind mount to mount your source code into the container. The container can then see the changes you make to the code immediately, as soon as you save a file.
+
+This is only possible through bind mounting, which works similar to a Linux mount. When we mount a path in the host to a path in the container, the contents of the host directory will completely overwrite whatever is in the container directory, regardless of whether the container directory has files which were not present in the host directory at mount time. The result is that the container directory will be an exact snapshot of the host directory.
+
+With approach above (volume mounting): Problem: No dependencies/Outdated dependencies (dev needs to install packages locally or they could be overriden by bind mount)
+
+requiring developers to jump through containers with docker run commands can add to the cognitive overhead of context switching.
+
+## Why Use Dev Containers? Levelling Up Docker Workflow for Development
+Dev containers streamline the development lifecycle, enabling developers to focus on coding and testing without the hassle of environment setup.
+
+- Problem: <s>Having consistent development environments shared across developers is difficult.</s> “It works on my machine”.
+- Solution: A reproducible development environment that can be versioned, shared and integrated seamlessly with your IDE.
+
+The Dev Containers offer the following advantages:
+- Environment consistency
+Whether you are at the start of development or in the process of migrating an existing project, Dev Containers ensure that every team member works in an identical environment. This eliminates the “it works on my machine” problem when an application behaves differently on different machines.
+- Quick workspace setup
+Project launch and setup are reduced to a few commands, allowing new employees to start almost instantly and minimizing the time spent on costly environment setup.
+- Security and isolation
+Each Dev Container is fully isolated from your operating system, facilitating experimentation with new tools and technologies without affecting the settings or compatibility of your current tooling.
+- Ease of maintenance and updates
+Updating tools and dependencies in a containerized environment does not require the lengthy and complex procedures often associated with traditional working environments.
+- Remote development capability
+The container can be run in a remote environment, and its resources and capabilities become available during development.
+
+
+business: running high spec dev machine on demand ?
+
+It is highly customized, giving users a large degree of freedom to customize their development environment according to their needs
+
+> continue in codespace -> open as 2cores .. 16 cores...
+
+
+Why?
+
+- Onboarding: One of the main selling points is to reduce onboarding friction. Just install VS Code a docker-like runtime and clone the relevant Dev Container and voilà, you have a ready to work project ✨.
+- Consistency: Keep the dev environments consistent including extensions, dependencies, IDE configurations, linting rules...
+- Integrates with Codespaces: A cloud-based VS Code IDE can be deployed with your Dev Container settings. 
+- Easy CI environments: Bootstrap the same environment in your CI
+- Upgrading is easier: Just change a version and share with single push
+- Isolation: For each use case (e.g. data science/web development) you can very easily separate versions and dependencies and eliminate local conflicts entirely.
+
+- Make PRs a breeze:  ? does "github.dev" works with prs? 
+
+Why-why
+
+- Market adoption: The “Dev Containers” VS Code extension already has 19M+ installs (!). I don’t see it slowing down any time soon.
+- OS vs IDE dev environments: A lot of people are talking about Nix. I believe that the simple ideas of Dev Containers make it easier to use (no need to learn new DSLs and concepts) because it just works™.
+
+When our engineers work on different projects, they need to follow the documentation for each project to configure their development environments and manage version compatibility on their local machines.
+
+Benefits of Using Development Containers
+- Consistent Development Environment: Containers encapsulate the development environment, including dependencies, libraries, and files.
+- Isolation: Each project has its container, which can prevent conflict between different versions of dependencies in different projects. It also ensures that any changes in one project will not affect others.
+- Dependency Management: All required dependencies are in the container. 
+- Easy Onboarding: New joiners can quickly start development by spinning up the container.
+
+
+These are the survey results.
+- Our engineers mainly use JetBrain Rider for .NET IDE for local environment.
+- We asked engineers to switch to Visual Studio Code for using dev container. We saw better satisfaction score for the dev container compared to local environment.
+- Setup time was also reduced from 10–15 minutes to 5–10 minutes.
+- Most of them had a better experience with the dev container.
+- Some engineers were not familiar with Visual Studio Code and had slightly worse experiences with the IDE.
+
+Engineers also saw the following benefits of using dev containers.
+- Simplified setup and configuration​
+- Consistent development environment​
+- Reduced dependency conflicts
+
+You can also explore dev containers on the cloud, such as Github Codespaces, Gitpod, or JetBrains Spaces. It can solve local resource problems, and engineers can code from any device.
+
+- Install Docker Desktop
+- Install an IDE capable of connecting to a remote development environment (Visual Studio Code has the best support for this today)
+- Download your source code
+- Two clicks to build your development environment in a container
+
+no need for java/c#/python; nuget, pip, no need to figure out environment variables, no database, message brokers and other services
+
+you can have any number of devcontainer.json files in your repository. 
+
+
+We're all familiar with the problem of an application failing to run correctly when moved from one environment to another.
+
+Dev Containers can replace the need for a virtual environment but doesn't necessarily have to.
+
+- Teaching
+- New project or language playground
+- Onboarding new developers to a team
+- Reviewing PRs
+
+Today we're talking about Dev Containers, but this is same technology in codespaces, that will provide cloud computing as well.
+
+- Open in CodeSpaces, which uses Dev Containers, but has added portability because it does not need Docker Desktop
+- You can share running demo of your code with a temporary URL with CodeSpaces
+
+To parallelize or scale horizontally ML model,  require that you be able to successfully and consistently reproduce your development training setup on a cluster
+
+Sharing your training scripts with your collaborator through version control is easy. Guaranteeing reproducibility without sharing your full execution environment with code, dependencies, and configurations is harder, as we’ll see in the next section.
+
+But your dependencies could include ML frameworks, CPU specific libs, GPU specific libs, GPU driver and so on 
+
+you could argue that virtual environment approaches such as conda and virtualenv address these issues. They do, but only partially.
+
+Several non-Python dependencies are not managed by these solutions.
+
+Due to the complexity of a typical machine learning stack, a large part of framework dependencies, such as hardware libraries, are outside the scope of virtual environments.
+
+Containers can fully encapsulate not just your training code, but the entire dependency stack down to the hardware libraries. What you get is a machine learning development environment that is consistent and portable. With containers, both collaboration and scaling on a cluster becomes much easier. 
+
+
+- Consistency and Reproducibility: With devcontainer.json, developers can define the exact tools, dependencies, and configurations required for their projects. It also facilitates collaboration across teams by providing a consistent environment for everyone involved.
+- Isolation and Safety: By working inside a container, developers can avoid conflicts between project dependencies and system-wide packages.
+- Time and Resource Savings: Setting up a development environment can be a time-consuming task, especially for complex projects. The devcontainer.json file automates this process, saving developers valuable time and resources that can be better spent on actual development tasks.
+- Portability: Since the development environment is encapsulated within a container, developers can seamlessly switch between different machines without any setup headaches. 
+- Version Control Integration: devcontainer.json can be committed to version control alongside the source code. This ensures that the development environment's configuration evolves with the project, making it easier to roll back or recreate specific development states.
+- Easy Testing and Debugging: Developers can use devcontainer.json to specify debugging configurations, making it effortless to set breakpoints, step through code, and troubleshoot issues directly from their preferred IDE.
+
+
+What's the point of using Docker to make a development environment?
+- I enjoy the fact that I don't have to install apache, mysql, mongodb, nginx, oracle, etc on my laptop to work different projects
+- It allows me to install whatever I want/need for any app without polluting my own is install and potentially borking my system or some other app I'm working on.
+- make it easier for people to get on board.
+- [12 factor application](https://www.12factor.net). Keep all your environments identical or else you would run into different complexities.
+- If I leave the project for some time to be able to jump in right away I need some documentation to save me some time trying to remember what is needed and how does it run
+
+you don’t need to install all the necessary tools and dependencies directly on your local machine.
+
+ncapsulates everything you need for your development workflow. This includes your code editor, programming languages, frameworks, libraries, and any other tools or utilities you require.
+
+The key difference between a traditional local development environment and developing inside a Docker container is the level of **isolation and consistency**.
+
+Developing inside a Docker container is different from using Docker containers solely for deployment or testing purposes. developing inside a container means you’re actually writing and editing code within the containerized environment itself.
+
+Additionally, you can easily manage and limit the resources (CPU, memory, etc.) allocated to your development container.
+
+
+Let's say you are a developer, working on a number of different projects at the same time. Some of those projects are quite different: there's some javascript, different versions of the tooling, there's some C code you are playing with, one of the projects uses a go backend, another two use different versions of node.
+
+## Why Not Use Dev Containers?
+Beyond the advantages of having your team use a consistent environment and tool-chain, this also makes it easier for new contributors or team members to be productive quickly. First-time contributors will require less guidance and hit fewer issues related to environment setup.
+
+- Any developer not in the Mobile/OS-native space.
+
+- Windows container images are not supported.
+
+Why not? 🙅
+
+- Mobile and Windows-native development: Emulators needed for that type of development don’t work as well as they do on a host machine.
+- Single developer: Many of the benefits of Dev Containers are most evident when there are multiple contributors to the same project.
+- Performance: There might be some performance hiccups, but there are solutions.
+
+Challenges Associated with Development Containers
+- Resource Overhead: Running a container requires resources such as memory and CPU on the host system. If you are running multiple containers at the same time, it can slow down your machine and development process.
+- Security Concerns: Container images may contain vulnerabilities or outdated dependencies. Regular updates and proper security practices are required to minimize the risks.
+- Learning Curve: Using containers requires basic knowledge, command, and tools related to docker. This can slow down adoption and increase the learning curve for engineers.
+
+Requires buy-in into vscode and github codespaces
+
+When not to use a Docker container for development
+- Simple or Lightweight Projects: For small or lightweight projects with minimal dependencies, the overhead of setting up and managing Docker containers may not be justified.
+- Limited Resources: If you’re working on a resource-constrained machine with limited CPU, memory, or storage
+- Specific Hardware or System Dependencies (that aren’t easily accessible from within a Docker container)
+- Incompatible Tools or Plugins: some development tools or plugins may not work as expected within a containerized environment
+
+## demo
+
+short demo first ("prove it"), then go into details
+
+Setting up a Development Container
+- Docker Desktop
+- Visual Studio Code (VS Code)
+- Dev Container Extension on Visual Studio Code
+
+> DevContainers: CLone repository ..
+microsoft/vscode-remote-try-node
+
+Rebuild
+When editing the contents of the .devcontainer folder, you'll need to rebuild for changes to take effect. Use the Dev Containers: Rebuild Container command for your container to update.
+
+However, if you rebuild the container, you will have to reinstall anything you've installed manually. To avoid this problem, you can use the postCreateCommand property in devcontainer.json or a custom Dockerfile
+
+A custom Dockerfile will benefit from Docker's build cache and result in faster rebuilds than postCreateCommand. However, the Dockerfile runs before the dev container is created and the workspace folder is mounted and therefore does not have access to the files in the workspace folder. A Dockerfile is most suitable for installing packages and tools independent of your workspace files.
+
+The postCreateCommand actions are run once the container is created, so you can also use the property to run commands like npm install or to execute a shell script in your source tree 
+
+Use Docker Compose
+
+In some cases, a single container environment isn't sufficient.
+- create a new docker-compose.yml
+- .. or extend existing
+- .. even use  VS Code windows to work with multiple services at once
+
+https://learn.microsoft.com/en-us/samples/microsoft/vscode-remote-try-dab/devcontainer/
+
+better "open in codespaces" example 
+
+"vscode-remote-try-*"
+https://github.com/search?q=org%3Amicrosoft+vscode-remote-try-&type=Repositories
+
+MSSQL extension 
+
+
+You can update the configuration to do things such as:
+Install additional tools.
+Install VS Code extensions.
+Expose ports from container.
+Set runtime arguments. etc...
+
+A codespace is a development environment that's hosted in the cloud. You can customize your project for GitHub Codespaces by committing configuration files to your repository (often known as Configuration-as-Code), which creates a repeatable codespace configuration for all users of your project.
+
+You can connect to your codespaces from your browser, from Visual Studio Code, or by using GitHub CLI.
+
+https://docs.github.com/assets/cb-68851/mw-1440/images/help/codespaces/codespaces-diagram.webp
+
+
+If you create a codespace from a repository without any dev container configurations, GitHub Codespaces will clone your repository into an environment with the default dev container image that includes many tools, languages, and runtime environments.
+
+You can personalize aspects of your codespace environment by using a public dotfiles repository. You can use dotfiles to set shell aliases and preferences, or to install your personal preference of the tools you like to use.
+
+
+## Concept cloud
+
+JetBrain’s Dev Environments
+
+https://www.jetbrains.com/space/
+
+https://www.gitpod.io
+
+https://nixos.org/?ref=unzip.dev
+
+Cloud IDE
+
+DevPod
+
+Coder.com
+
+DevBox
+
+---
+
+https://code.visualstudio.com/docs/devcontainers/tutorial
+
+example: open pr https://code.visualstudio.com/docs/devcontainers/containers#_quick-start-open-a-git-repository-or-github-pr-in-an-isolated-container-volume
+
+- create a "demo" repository
+- highlight why it's beneficial
+
+some comparison / evolution of devcontainers vs CloudIDE , remove ssh (vs code)
+jupyter notebook / lab: it was already "dev container"
+
+> consistent, reproducible environments using Docker. By codifying the environment setup, they help teams safe time, reduce friction, and focus on writing code instead of troubleshooting setups
+
+> there are lots of benefits to making a reproducible environment. for me the two main ones:
+> - your open project and it just works. Image some open-source project that interests you but you don't know how to even run it. With DEaac the installatio problems go away.
+>- you can share it with your peers. a codified developer setup is a form of knowledge that could be evaluated and evolved. It opens up tons of new opportunities
+
+---
+
+
+https://nikiforovall.github.io/productivity/devcontainers/2022/08/13/deaac.html
+
+> There are lots of benefits to making a reproducible dev environment. For me the two main ones:
+>- You open a project and it just works. Image some open-source project that interests you but you don't know how to even run it. With DEaaC the installation problems go away.
+>- You can share it with your peers. A codified developer setup is a form of knowledgge that could be evaluated and evolved. It opens up tons of new opportunities
+
+## DevContainers
+
+`%AppData%\Code\User\globalStorage\ms-vscode-remote.remote-containers\configs` - user workspace where repositories custom files could be added
+
+https://code.visualstudio.com/docs/devcontainers/containers
+
+https://github.com/devcontainers-contrib
+
+### Personalizing
+
+https://code.visualstudio.com/docs/devcontainers/containers#_personalizing-with-dotfile-repositories
+
+
+https://microsoft.github.io/code-with-engineering-playbook/developer-experience/devcontainers-getting-started/
+
+
+
+Devcontainers, features, dotfiles
+
+
+---
+
+
+https://medium.com/@rami.krispin/setting-a-dockerized-python-development-environment-template-de2400c4812b
+
+https://unzip.dev/0x015-dev-containers/
+
+https://unzip.dev/content/images/2023/09/Dev_Containers.png
+
+https://medium.com/agoda-engineering/container-based-development-how-to-setup-development-in-docker-with-dev-container-8b3e9d1e065e
+
+https://learn.microsoft.com/en-us/azure/azure-sql/database/local-dev-experience-dev-containers?view=azuresql
+
+https://medium.com/cwan-engineering/reproducible-local-development-with-dev-containers-0ed5fa850b36
+
+https://miro.medium.com/v2/resize:fit:720/format:webp/1*p7fItlFwMp1VbKN2KgiVAw.png
+
+https://dawnwages.info/bajoran-engineer/2023/07/05/dev-containers-for-python-and-django-video/
+
+https://aws.amazon.com/blogs/opensource/why-use-docker-containers-for-machine-learning-development/
+
+
+https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2020/03/11/prasanna_f2_2020_03_11_150.png
+
+https://www.linkedin.com/pulse/simplifying-development-devcontainerjson-empowering-developers-dua
+
+https://media.licdn.com/dms/image/v2/D4D12AQE6rHmEoEThEg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1690781554656?e=2147483647&v=beta&t=MlJI_0V7372AEf7A9dEXHpO6thq_PQeqQjNXz3Q_KLE
+
+https://www.reddit.com/r/docker/comments/tv7sqs/whats_the_point_of_containerizing_a_development/
+
+https://imgs.xkcd.com/comics/python_environment.png
+
+https://www.gitpod.io/blog/a-look-at-development-inside-a-docker-container
+
+https://bitbytedeadbeef.medium.com/a-beginners-guide-to-developing-inside-a-container-a4ae150a3206
+
+https://rabexc.org/posts/docker-dev
+
+https://medium.com/rate-engineering/using-docker-containers-as-development-machines-4de8199fc662
+
+https://www.docker.com/blog/streamlining-local-development-with-dev-containers-and-testcontainers-cloud/
+
+https://docs.docker.com/guides/nodejs/develop/
+
+https://dev.to/graezykev/dev-containers-part-0-why-you-need-them-4727
+
+https://testdouble.com/insights/the-slippery-slope-of-docker-dev-environments
+
+https://microsoft.github.io/code-with-engineering-playbook/developer-experience/devcontainers-going-further/
+

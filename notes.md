@@ -1,0 +1,33 @@
+lean on "company adoption"
+
+Hello everyone, I'm Eugene Isakov, a developer in the Quant Technology team and today I would be presenting you dev containers. In 15 minutes, I wouldn't be able to provide complete overview, so feel free to ask questions at the end, message me in MS team, or find me on 4th floor near a meeting room D. 
+
+With that covered, let's start
+
+<!-- Context -->
+Not so long ago, we spend a lot of time on production environment configuration: creating configuration files, setting environment variables, even creating databases. With a Docker technology. it's not longer a problem. We build a container once and ship it everywhere. 
+
+<!-- Problem -->
+But here comes inconsistency: we still do the same with our local dev environment: creating configuration files, setting environment variables, installing dependencies.
+
+<!-- Opportunity & Brighter future -->
+What if there is a better way? Let me introduce you Dev Containers. By using the same Docker technology that we already use in production, we could enjoy its benefits for our local environment. And almost at no cost.
+
+
+
+But what if I'll tell you what if I tell you that we can leverage the same doctor technology on our local developer machine to read the same benefits as we? The same benefits or even more Almost at no cost
+
+Why would you use the containers? It is living your workflow for development is the same way as we living that up in the past for production Let's step back a little bit And talk about environment party in the past what we desire is to build build ones and ship the same image to every environment that we have But what they contain says is that we could shift it left now we can take production image and shift it everywhere to close it to developer Which means we will be writing the same image in production NCI and continuous integration and undevelopment machine eliminating difference. Independence is independence like operation system system wide libraries and zone. The next thing is consistency We we can provide the same tooling version across every machine that will be using the container so just imagine that every team member will be running the same snapshot And we could be
+
+is the same set of variable. It's the same set of tools and variable and configuration as we have in production just a little bit on top of it. As we start the production on top of As we start production on top It also provides very consistent. It also provides consistency because you. Because the way it was Is it just mention you're not only lying on the image from production? Because the way I just described you not only writing the same image as in production you're also running the same as all your teammates. That means that you don't don't have any anymore issues that it works on one machine and doesn't work on another machine. Because the way I just described you not only writing the same image as in production you're also running the same as all your teammates. That means that you don't don't have anymore issues that it works on one machine and doesn't work on another machine. It also means that you can reproduce it easily anywhere for example example if you have a new new member you can get up and running within minutes. You're also move that container to and run it on another more powerful machine or even in the cloud. That thing is my favourite You're actually can have a project specific as a later environments No more, I actually really like it because you don't need anymore to install different directions of Java python and not jazz on your machine No more, I really like it because you don't need anymore to install different directions of Java python and no jazz on your machine You don't need to different tools from different project do not clash with each other and also you can customise that containers per different for clothes and also means that you can have seamless contact switching between different projects Just as a container
+
+
+Because of because of that we can achieve consistent and reproducible environment that's because they can file and contain a stored inside the repository and the version control Because of because of that we can achieve consistent and reproducible environment that's because they can file and contain a stored inside and the version control So all team members, including all team members have access to all team members are using the same tools, same tools, same same versions, same decoration system same system operation So all team members including all team members have access to all team members are using the same tools, same tools, same same versions, same decoration system same operation operation system so drastically drastic So all team members including all team members have access to all team members are using the same tools same tools, same same versions same decoration system same operation system so drastically reduce amount of environmental error errors environmental issues, issues And simply makes idea it just works and it just works my personal favourite is that it's actually create project specific isolated environment so we could run the same same So we could run This is a different version of the same machine is the same time if you want This is a different version. The same machine is the same time if you want. Which is really great if you have any legacy applications Means that you don't need to install any weight on your horse machine, keeping them clean and keeping it not po
+
+
+
+The Development Container Spec allows one to define a repeatable development environment for a user or team of developers that includes the execution environment the application needs. A development container defines an environment in which you develop your application before you are ready to deploy. While deployment and development containers may resemble one another, you may not want to include tools in a deployment image that you use during development and you may need to use different secrets or other settings.
+
+Furthermore, working inside a development container can require additional metadata to drive tooling or service experiences than you would normally need with a production container. Providing a structured and consistent form for this metadata is a core part of this specification.
+
+A development container is composed of a definition (e.g. contained in a devcontainer.json file) that deterministically creates containers under the control of the user.
